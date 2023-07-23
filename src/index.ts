@@ -5,10 +5,13 @@ const instructions = (baseUrl: string) => `<!DOCTYPE html>
   <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="initial-scale=1"/>
-    <title>Mathpls!</title>
+    <meta property="og:title" content="Expr.run"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:description" content="For when you cannot math but you can make a web request!"/>
+    <title>Expr.run!</title>
   </head>
   <body>
-    <h1>Mathpls!</h1>
+    <h1>Expr.run!</h1>
     <p>For when you cannot math but you can make a web request!</p>
     <p>Lovingly shitposted by <a href="https://krofdrakula.github.io" target="_blank">KrofDrakula</a>. Source <a href="https://github.com/krofdrakula/mathpls" target="_blank">here</a>.</p>
     <h2>Usage</h2>
