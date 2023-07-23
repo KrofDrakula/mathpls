@@ -21,7 +21,7 @@ test("should respond with html instructions", async (t) => {
 
 test("should respond with a calculation result", async (t) => {
   const { result, error } = (await worker
-    .fetch("/calc/2+3")
+    .fetch("/2+3")
     .then((r) => r.json())) as { result: number; error: null };
   t.expect(result).toEqual(5);
   t.expect(error).toEqual(null);
@@ -29,7 +29,7 @@ test("should respond with a calculation result", async (t) => {
 
 test("should respond with a syntax error", async (t) => {
   const { result, error } = (await worker
-    .fetch("/calc/2^3")
+    .fetch("/2^3")
     .then((r) => r.json())) as { result: null; error: string };
   t.expect(result).toEqual(null);
   t.expect(error)

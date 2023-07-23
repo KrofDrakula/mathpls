@@ -9,10 +9,7 @@ Supported operations:
 - functions from `Math.*`
 - constants `pi` (𝜋) and `e` (Euler's number)
 
-The following URLs are supported:
-
-- `/`: shows a quick description of the service in HTML format
-- `/calc/...`: parses the expression given in the subpath and returns the result
+Simply add your algebraic expression in the URL path and the service will reply with the result in JSON format.
 
 The JSON returned conforms to the following TS type:
 
@@ -23,6 +20,6 @@ type Result = { result: number; error: null } | { result: null; error: string };
 ## Examples
 
 - Circumference of the Earth along equator, in meters:
-  [`https://expr.run/calc/2*pi*6.378137e6`](https://expr.run/calc/2*pi*6.378137e6) ($d = 2 \pi r$)
-- Approximate period of a 3m pendulum, in seconds:
-  [`https://expr.run/calc/2*pi*sqrt(3/9.81)`](<https://expr.run/calc/2*pi*sqrt(3/9.81)>) ($T = 2 \pi \sqrt{L \over g} $)
+  [`https://expr.run/2*pi*6.378137e6`](https://expr.run/2*pi*6.378137e6) ($d = 2 \pi r$)
+- Approximate period of a 3m pendulum at sea level, in seconds:
+  [`https://expr.run/2*pi*sqrt(3/9.81)`](<https://expr.run/2*pi*sqrt(3/9.81)>) ($T = 2 \pi \sqrt{L \over g} $)

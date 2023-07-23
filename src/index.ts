@@ -12,7 +12,7 @@ const instructions = (baseUrl: string) => `<!DOCTYPE html>
     <p>For when you cannot math but you can make a web request!</p>
     <h2>Usage</h2>
     <p>To calculate a math expression, simply use the following URL to receive a JSON response:</p>
-    <pre><code>${baseUrl}/calc/<em>expression</em></code></pre>
+    <pre><code>${baseUrl}/<em>expression</em></code></pre>
     <p>Where <code>expression</code> is a math expression that supports the following:<p>
     <ul>
       <li>+ - * / operators</li>
@@ -22,12 +22,12 @@ const instructions = (baseUrl: string) => `<!DOCTYPE html>
       <li>whitespace between tokens is ignored</li>
     </ul>
     <p>For example, to compute the Earth's circumference based on mean radius across equator, in meters:</p>
-    <pre><code>${baseUrl}/calc/6.378137e6*2*pi</code></pre>
+    <pre><code>${baseUrl}/6.378137e6*2*pi</code></pre>
     <p>This returns the JSON response:</p>
     <pre><code>{"result":40075016.68557849,"error":null}</code></pre>
     <p>If the result is not computable, <code>result</code> will be null. If there is a parsing error, the <code>error</code> property will be populated with the error message.</p>
     <h2>cURL example</h2>
-    <pre><code>curl ${baseUrl}/calc/6.378137e6*2*pi</code></pre>
+    <pre><code>curl ${baseUrl}/6.378137e6*2*pi</code></pre>
   </body>
 </html>
 `;
@@ -75,12 +75,28 @@ export default {
       return new Response(instructions(url.origin), {
         headers: { "Content-Type": "text/html" },
       });
-    } else if (path.startsWith("/calc/")) {
-      const expr = decodeURIComponent(path.replace(/^\/calc\//, ""));
-      try {
+    }
+
+    const expr = decodeURIComponent(path.replace(/^\//, ""));
+    try {
+      return new Response(
+        JSON.stringify({ result: parse(expr), error: null }),
+        {
+          headers: new Headers({
+            ...CORS_HEADERS,
+            "Content-Type": "application/json",
+            "Cache-Control": "public, max-age=604800",
+          }),
+        }
+      );
+    } catch (err) {
+      if (typeof (err as any)?.format == "function") {
+        const formatted = (err as PeggySyntaxError).format([{ text: expr }]);
         return new Response(
-          JSON.stringify({ result: parse(expr), error: null }),
+          JSON.stringify({ result: null, error: formatted }),
           {
+            status: 400,
+            statusText: "Bad request",
             headers: new Headers({
               ...CORS_HEADERS,
               "Content-Type": "application/json",
@@ -88,42 +104,20 @@ export default {
             }),
           }
         );
-      } catch (err) {
-        if (typeof (err as any)?.format == "function") {
-          const formatted = (err as PeggySyntaxError).format([{ text: expr }]);
-          return new Response(
-            JSON.stringify({ result: null, error: formatted }),
-            {
-              status: 400,
-              statusText: "Bad request",
-              headers: new Headers({
-                ...CORS_HEADERS,
-                "Content-Type": "application/json",
-                "Cache-Control": "public, max-age=604800",
-              }),
-            }
-          );
-        } else {
-          return new Response(
-            JSON.stringify({ result: null, error: err!.toString() }),
-            {
-              status: 400,
-              statusText: "Bad request",
-              headers: new Headers({
-                ...CORS_HEADERS,
-                "Content-Type": "application/json",
-                "Cache-Control": "public, max-age=604800",
-              }),
-            }
-          );
-        }
+      } else {
+        return new Response(
+          JSON.stringify({ result: null, error: err!.toString() }),
+          {
+            status: 400,
+            statusText: "Bad request",
+            headers: new Headers({
+              ...CORS_HEADERS,
+              "Content-Type": "application/json",
+              "Cache-Control": "public, max-age=604800",
+            }),
+          }
+        );
       }
-    } else if (path == "/stats") {
-      return new Response("Stats not available yet");
     }
-    return new Response(`Resource not found (${path})`, {
-      status: 404,
-      statusText: "Not found",
-    });
   },
 };
