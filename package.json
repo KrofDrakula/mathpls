@@ -1,0 +1,42 @@
+{
+  "name": "@krofdrakula/mathpls",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "scripts": {
+    "build-grammar": "nx exec -- node tasks/build-grammar.cjs",
+    "build": "nx exec -- vite build",
+    "deploy": "wrangler deploy",
+    "test": "nx exec -- vitest --run"
+  },
+  "dependencies": {
+    "@types/node": "^20.4.4",
+    "nx": "16.5.5",
+    "peggy": "^3.0.2",
+    "ts-pegjs": "^4.2.1",
+    "vite": "^4.4.6",
+    "vitest": "^0.33.0",
+    "wrangler": "^3.3.0"
+  },
+  "nx": {
+    "targets": {
+      "build-grammar": {
+        "inputs": [
+          "{projectRoot}/src/calculator/**/*"
+        ]
+      },
+      "build": {
+        "inputs": [
+          "{projectRoot}/src/**/*",
+          "{projectRoot}/vite.config.js",
+          "{projectRoot}/tsconfig.json"
+        ]
+      }
+    }
+  }
+}
