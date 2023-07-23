@@ -25,9 +25,7 @@ const instructions = (baseUrl: string) => `<!DOCTYPE html>
     <pre><code>${baseUrl}/6.378137e6*2*pi</code></pre>
     <p>This returns the JSON response:</p>
     <pre><code>{"result":40075016.68557849,"error":null}</code></pre>
-    <p>If the result is not computable, <code>result</code> will be null. If there is a parsing error, the <code>error</code> property will be populated with the error message.</p>
-    <h2>cURL example</h2>
-    <pre><code>curl ${baseUrl}/6.378137e6*2*pi</code></pre>
+    <p>If the result is not computable, <code>result</code> will be <code>null</code>. If there is a parsing error, the <code>error</code> property will be populated with the error message.</p>
   </body>
 </html>
 `;
