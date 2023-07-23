@@ -93,34 +93,21 @@ export default {
         }
       );
     } catch (err) {
+      let message: string;
       if (typeof (err as any)?.format == "function") {
-        const formatted = (err as PeggySyntaxError).format([{ text: expr }]);
-        return new Response(
-          JSON.stringify({ result: null, error: formatted }),
-          {
-            status: 400,
-            statusText: "Bad request",
-            headers: new Headers({
-              ...CORS_HEADERS,
-              "Content-Type": "application/json",
-              "Cache-Control": "public, max-age=604800",
-            }),
-          }
-        );
+        message = (err as PeggySyntaxError).format([{ text: expr }]);
       } else {
-        return new Response(
-          JSON.stringify({ result: null, error: err!.toString() }),
-          {
-            status: 400,
-            statusText: "Bad request",
-            headers: new Headers({
-              ...CORS_HEADERS,
-              "Content-Type": "application/json",
-              "Cache-Control": "public, max-age=604800",
-            }),
-          }
-        );
+        message = err?.toString() ?? "Unknown error";
       }
+      return new Response(JSON.stringify({ result: null, error: message }), {
+        status: 400,
+        statusText: "Bad request",
+        headers: new Headers({
+          ...CORS_HEADERS,
+          "Content-Type": "application/json",
+          "Cache-Control": "public, max-age=604800",
+        }),
+      });
     }
   },
 };
