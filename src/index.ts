@@ -4,11 +4,12 @@ const instructions = (baseUrl: string) => `<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8"/>
-    <meta name="viewport" content="initial-scale=1"/>
-    <meta property="og:title" content="Expr.run"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:description" content="For when you cannot math but you can make a web request!"/>
     <title>Expr.run!</title>
+    <meta name="viewport" content="initial-scale=1"/>
+    <meta property="og:title" content="Expr.run!"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://expr.run/"/>
+    <meta property="og:description" content="For when you cannot math but you can make a web request!"/>
   </head>
   <body>
     <h1>Expr.run!</h1>
