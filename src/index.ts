@@ -10,6 +10,7 @@ const instructions = (baseUrl: string) => `<!DOCTYPE html>
   <body>
     <h1>Mathpls!</h1>
     <p>For when you cannot math but you can make a web request!</p>
+    <p>Lovingly shitposted by <a href="https://krofdrakula.github.io" target="_blank">KrofDrakula</a>. Source <a href="https://github.com/krofdrakula/mathpls" target="_blank">here</a>.</p>
     <h2>Usage</h2>
     <p>To calculate a math expression, simply use the following URL to receive a JSON response:</p>
     <pre><code>${baseUrl}/<em>expression</em></code></pre>
